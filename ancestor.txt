@@ -1,0 +1,74 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+class BST
+{
+    Node root;
+    class Node
+    {
+        int data;
+        Node left;
+        Node right;
+        Node( int x )
+        {
+            data = x;
+            left = null;
+            right = null;
+        }    
+    }
+    void insert( int x )
+    {
+        root = insert( root, x ) ;
+    }
+    Node insert(Node n, int x)
+    {
+        if( n == null )
+        {
+            return new Node( x ) ;
+        }
+        if( n.data > x )
+        {
+            n.left = insert( n.left, x ) ;
+        }
+        else
+        {
+            n.right = insert( n.right , x ) ;
+        }
+        return n ;
+    }
+    int ansc( int x, int y )
+    {
+        if( x == root.data ) return -1 ;
+        else
+            return ansc(root, x, y, null) ;
+    }
+    int ansc(Node n, int x, int y, Node parent)
+    {
+        parent = n;
+        if( n == null ) return -1 ;
+        if( x == n.data ) return parent.data;
+        if( x < n.data && y < n.data ) return ansc( n.left, x, y, parent) ;
+        else if ( x > n.data && y > n.data )return ansc( n.right, x, y, parent);
+        else return n.data;
+    }
+    
+}
+public class Solution {
+    public static void main(String args[] ) throws Exception 
+    {
+       BST b = new BST();
+        Scanner s = new Scanner(System.in);
+        int t = s.nextInt();
+        while( t-- > 0)
+        {
+            b.insert(s.nextInt());
+        }
+        t = s.nextInt();
+        while( t-- > 0 )
+        {
+            System.out.println(b.ansc(s.nextInt(),s.nextInt()));
+        }
+    }
+}

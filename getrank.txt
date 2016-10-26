@@ -1,0 +1,105 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class BST {
+     private Node root;
+        
+        private class Node {
+            
+            private final Integer key;
+            private Node right;
+            private Node left;
+            private int N;
+            
+            public Node(Integer key) {
+                this.key = key;
+                N = 1;
+            }
+        }
+        public boolean isEmpty() {
+            return size() == 0;
+        }
+        
+        public int size() {
+            return sizeOf(root);
+        }
+        
+        private int sizeOf(Node x) {
+            return x == null ? 0 : x.N;
+        }
+    
+        public Integer get(int key) {
+            Node x = get(root, key);
+            return x == null ? null : x.key;
+        }
+        
+        private Node get(Node x, Integer key) {
+            if (x == null) {
+                return null;
+            }
+            int cmp = key.compareTo(x.key);
+            if (cmp == 0) {
+                return x;
+            }
+            if (cmp < 0) {
+                return get(x.left, key);
+            }
+            return get(x.right, key);
+        }
+public void insert(int key) 
+    {
+        root = insert(root, key) ;
+    }
+    Node insert(Node n, int x)
+    {
+        if( n == null )
+            return new Node( x ) ;
+        if( n.key > x )
+            n.left = insert( n.left, x ) ;
+        else
+            n.right = insert( n.right , x ) ;
+        n.N = 1 + sizeOf(n.left) + sizeOf(n.right);
+        return n ;
+    }
+    boolean search(Node n,int x)
+    {
+        if( n == null ) return false;
+        else if(n.key > x) return search( n.left, x );
+        else if( n.key < x ) return search( n.right, x );
+        else return true;
+    }
+    public Integer getRank(int key)
+    {
+        if (search(root,key)) return getRank(root, key) ;
+        else
+            return -1;
+    }
+    private int getRank(Node n, int x)
+    {
+        if( n.key == x )
+        {
+            return sizeOf( n.left) ;
+        }
+        if( x < n.key ) return getRank( n.left, x) ;
+        else return 1 + sizeOf(n.left) + getRank( n.right, x) ;
+    }
+
+public static void main(String[] args){
+        Scanner in = new Scanner(System.in);
+        BST bst = new BST();
+        int n = in.nextInt();
+        for(int i = 0 ; i < n ; i++){
+            bst.insert(in.nextInt());
+        }
+        int m = in.nextInt();
+        for(int i = 0 ; i < m ; i++){
+            System.out.println(bst.getRank(in.nextInt()));
+        }
+    }
+}
+    
+    
+    
